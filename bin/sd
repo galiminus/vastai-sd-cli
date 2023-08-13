@@ -4,46 +4,46 @@ require "bundler/setup"
 
 require "dry/cli"
 
-require_relative "../lib/vastai-sd-cli/start"
+require_relative "../lib/vast-sd/start"
+require_relative "../lib/vast-sd/config"
 
-DEFAULT_CONFIG_FILE_PATH = File.join(Dir.home, '.vastai-sd-cli.conf.json')
+DEFAULT_CONFIG_FILE_PATH = File.join(Dir.home, '.vast-sd.conf.json')
 
-module Sd
-  module CLI
-    module Commands
-      extend Dry::CLI::Registry
-
-      class Config < Dry::CLI::Command
-        desc "Run configuration wizard"
-
-        option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
-
-        def call(c:, **)
-          puts "Not implemented yet"          
-        end
-      end
-
-      class Start < Dry::CLI::Command
-        desc "Start instance on vast.ai"
-
-        option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
-
-        def call(c:, **)
-          config =
-            if File.exists?(c)
-              JSON.parse(File.read c)
-            else
-              {}
-            end
-
-          VastaiSdCli::Start.new(config: config).run
-        end
-      end
-
-      register "config",  Config
-      register "start",   Start
-    end
+def load_config(path)
+  if File.exists?(path)
+    JSON.parse(File.read path)
+  else
+    {}
   end
 end
 
-Dry::CLI.new(Sd::CLI::Commands).call
+module VastSd
+  module Commands
+    extend Dry::CLI::Registry
+
+    class Config < Dry::CLI::Command
+      desc "Run configuration wizard"
+
+      option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
+
+      def call(c:, **)
+        VastSd::Config.new(path: c, config: load_config(c)).run
+      end
+    end
+
+    class Start < Dry::CLI::Command
+      desc "Start instance on vast.ai"
+
+      option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
+
+      def call(c:, **)
+        VastSd::Start.new(config: load_config(c)).run
+      end
+    end
+
+    register "config", Config
+    register "start", Start
+  end
+end
+
+Dry::CLI.new(VastSd::Commands).call

@@ -5,8 +5,12 @@ require 'tty-spinner'
 require 'tty-prompt'
 require 'tty-command'
 
-module VastaiSdCli
+require_relative './vast'
+
+module VastSd
   class Start
+    include Vast
+
     def initialize(config:)
       @config = config
     end
@@ -22,8 +26,8 @@ module VastaiSdCli
 
       offers = offers.select do |offer|
         has_good_gpu =
-          if @config["preferred_gpu"]
-            offer["gpu_name"] == @config["preferred_gpu"]
+          if @config["preferred_gpus"].to_a.count > 0
+            @config["preferred_gpus"].include?(offer["gpu_name"])
           else
             true
           end
@@ -125,30 +129,6 @@ module VastaiSdCli
       end
 
       spinner.stop
-    end
-
-    def vast_cmd(*params)
-      spinner = TTY::Spinner.new(clear: true)
-      spinner.auto_spin
-    
-      cmd = TTY::Command.new(printer: :null)
-    
-      params = params.map do |param|
-        Shellwords.escape(param)
-      end
-    
-      output, error = cmd.run("vast #{params.join(" ")} --raw 2> /dev/null")
-    
-      # Cleanup output
-      output = output.gsub(/.+HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh/m, '')
-    
-      spinner.stop
-    
-      begin
-        JSON.parse(output)
-      rescue JSON::ParserError
-        output
-      end
     end
   end
 end
