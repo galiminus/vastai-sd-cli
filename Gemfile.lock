@@ -1,10 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    parseconfig (1.1.2)
+    dry-cli (1.0.0)
     pastel (0.8.0)
       tty-color (~> 0.5)
     tty-color (0.6.0)
+    tty-command (0.10.1)
+      pastel (~> 0.8)
     tty-cursor (0.7.1)
     tty-logger (0.6.0)
       pastel (~> 0.8)
@@ -24,7 +26,8 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
-  parseconfig
+  dry-cli
+  tty-command
   tty-logger
   tty-prompt
   tty-spinner

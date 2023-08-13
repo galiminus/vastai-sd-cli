@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+
+require "dry/cli"
+
+require_relative "../lib/vastai-sd-cli/start"
+
+DEFAULT_CONFIG_FILE_PATH = File.join(Dir.home, '.vastai-sd-cli.conf.json')
+
+module Sd
+  module CLI
+    module Commands
+      extend Dry::CLI::Registry
+
+      class Config < Dry::CLI::Command
+        desc "Run configuration wizard"
+
+        option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
+
+        def call(c:, **)
+          puts "Not implemented yet"          
+        end
+      end
+
+      class Start < Dry::CLI::Command
+        desc "Start instance on vast.ai"
+
+        option :c, desc: "Configuration file path", default: DEFAULT_CONFIG_FILE_PATH
+
+        def call(c:, **)
+          config =
+            if File.exists?(c)
+              JSON.parse(File.read c)
+            else
+              {}
+            end
+
+          VastaiSdCli::Start.new(config: config).run
+        end
+      end
+
+      register "config",  Config
+      register "start",   Start
+    end
+  end
+end
+
+Dry::CLI.new(Sd::CLI::Commands).call
