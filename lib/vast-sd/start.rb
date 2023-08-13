@@ -3,7 +3,6 @@ require 'json'
 require 'tty-logger'
 require 'tty-spinner'
 require 'tty-prompt'
-require 'tty-command'
 
 require_relative './vast'
 

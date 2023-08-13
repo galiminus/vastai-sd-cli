@@ -1,6 +1,9 @@
 require 'shellwords'
 require 'json'
 
+require 'tty-spinner'
+require 'tty-command'
+
 module VastSd
   module Vast
     def vast_cmd(*params)
