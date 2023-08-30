@@ -37,6 +37,6 @@ Honestly the simplest thing to do is to write the configuration file yourself in
 
 ## Usage
 
-Run `vast-sd start` and you'll be greeted with a selection of instances, pick the one you want and wait for initialization and provising.
+Run `vast-sd start` and you'll be greeted with a selection of instances, pick the one you want and wait for initialization and provisioning.
 
 *Note: killing the process will automatically destroy your instance. But you better double check on vast-ai.*
