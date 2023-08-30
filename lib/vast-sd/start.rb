@@ -55,7 +55,7 @@ module VastSd
           sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
           /start.sh
         },
-        "--image", "runpod/stable-diffusion:web-automatic-8.0.1"
+        "--image", "runpod/stable-diffusion:web-automatic-8.0.3"
       )
 
       contract_id = contract["new_contract"]
@@ -106,7 +106,7 @@ module VastSd
       logger.success "Instance ready"
 
       # Run watchdog
-      spinner = TTY::Spinner.new("[:spinner] Running: :balance", clear: true)
+      spinner = TTY::Spinner.new("[:spinner] Running: :balance")
       spinner.auto_spin
 
       loop do
