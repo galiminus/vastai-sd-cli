@@ -46,7 +46,7 @@ module VastSd
       contract = vast_cmd(
         "create",
         "instance", id,
-        "--disk", 20,
+        "--disk", 50,
         "--jupyter",
         "--jupyter-dir", "/",
         "--direct",
