@@ -10,7 +10,7 @@ require_relative "../lib/vast-sd/config"
 DEFAULT_CONFIG_FILE_PATH = File.join(Dir.home, '.vast-sd.conf.json')
 
 def load_config(path)
-  if File.exists?(path)
+  if File.exist?(path)
     JSON.parse(File.read path)
   else
     {}

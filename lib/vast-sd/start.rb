@@ -55,7 +55,7 @@ module VastSd
           sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
           /start.sh
         },
-        "--image", "runpod/stable-diffusion:web-automatic-8.0.3"
+        "--image", @config["image"] || "runpod/stable-diffusion:web-automatic-10.1.1"
       )
 
       contract_id = contract["new_contract"]
